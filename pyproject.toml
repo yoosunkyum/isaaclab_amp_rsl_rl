@@ -83,3 +83,12 @@ reportMissingModuleSource = "none" # -> most common: prettytable in mdp managers
 reportGeneralTypeIssues = "none"       # -> raises 218 errors (usage of literal MISSING in dataclasses)
 reportOptionalMemberAccess = "warning" # -> raises 8 errors
 reportPrivateUsage = "warning"
+
+extraPaths = [
+    "C:/IsaacLab/source/extensions/isaaclab",
+    "C:/IsaacLab/source/extensions/isaaclab_assets",
+    "C:/IsaacLab/source/extensions/isaaclab_tasks",
+    "C:/IsaacLab/source/extensions/isaaclab_mimic",
+    "C:/IsaacLab/source/extensions/isaaclab_rl",
+    "${workspaceFolder}/source/ext_template",
+]

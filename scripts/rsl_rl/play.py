@@ -18,6 +18,7 @@ parser.add_argument(
 )
 parser.add_argument("--num_envs", type=int, default=None, help="Number of environments to simulate.")
 parser.add_argument("--task", type=str, default=None, help="Name of the task.")
+parser.add_argument("--algorithm", type=str, default="PPO", help="RL Policy training algorithm to use [PPO, AMP].")
 # append RSL-RL cli arguments
 cli_args.add_rsl_rl_args(parser)
 # append AppLauncher cli args
@@ -38,6 +39,7 @@ import os
 import torch
 
 from rsl_rl.runners import OnPolicyRunner
+from amp_rsl_rl.runners import AMPOnPolicyRunner
 
 from isaaclab.envs import DirectMARLEnv, multi_agent_to_single_agent
 from isaaclab.utils.dict import print_dict
@@ -86,7 +88,10 @@ def main():
 
     print(f"[INFO]: Loading model checkpoint from: {resume_path}")
     # load previously trained model
-    ppo_runner = OnPolicyRunner(env, agent_cfg.to_dict(), log_dir=None, device=agent_cfg.device)
+    if args_cli.algorithm == "AMP":
+        ppo_runner = AMPOnPolicyRunner(env, agent_cfg.to_dict(), log_dir=log_dir, device=agent_cfg.device)    
+    else:
+        ppo_runner = OnPolicyRunner(env, agent_cfg.to_dict(), log_dir=None, device=agent_cfg.device)
     ppo_runner.load(resume_path)
 
     # obtain the trained policy for inference
