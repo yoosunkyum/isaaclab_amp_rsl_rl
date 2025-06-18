@@ -41,7 +41,7 @@ class RobotAmpRunnerCfg(RslRlAmpOnPolicyRunnerCfg):
     max_iterations = 10000
     save_interval = 200
     experiment_name = "robot_amp"
-    empirical_normalization = False
+    empirical_normalization = True
     policy = RslRlPpoActorCriticCfg(
         init_noise_std=1.0,
         actor_hidden_dims = [1024, 512],
@@ -71,7 +71,7 @@ class RobotAmpRunnerCfg(RslRlAmpOnPolicyRunnerCfg):
         entropy_coef=0.0,
         num_learning_epochs=6,
         num_mini_batches=2,
-        learning_rate=5.0e-5,
+        learning_rate=1.0e-3,
         schedule="adaptive",
         gamma=0.99,
         lam=0.95,
@@ -89,16 +89,9 @@ class RobotAmpRunnerCfg(RslRlAmpOnPolicyRunnerCfg):
     slow_down_factor = 1
     
 @configclass
-class G1AmpRunnerCfg(RobotAmpRunnerCfg):
-    experiment_name = "G1_AMP"
-    amp_data_path = Path("/home/ysk/ws/isaaclab_amp_rsl_rl/motions/g1")
-    dataset_names = ['walk_converted']
-    dataset_weights = [1.0]
-    
-@configclass
 class H1AmpRunnerCfg(RobotAmpRunnerCfg):
     experiment_name = "H1_AMP"
-    amp_data_path = Path("/home/ysk/ws/isaaclab_amp_rsl_rl/motions/h1")
-    dataset_names = ['walk_converted']
+    amp_data_path = Path("C:/Research/isaaclab_amp_rsl_rl/motions/h1")
+    dataset_names = ['h1_walk']
     dataset_weights = [1.0]
         

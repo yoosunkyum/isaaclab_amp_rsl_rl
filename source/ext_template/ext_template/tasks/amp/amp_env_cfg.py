@@ -100,7 +100,7 @@ class ObservationsCfg:
         base_pos_z = ObsTerm(func=mdp.base_pos_z, noise=Unoise(n_min=-0.01, n_max=0.01))
         # projected_gravity = ObsTerm(func=mdp.projected_gravity,noise=Unoise(n_min=-0.05, n_max=0.05))
         # velocity_commands = ObsTerm(func=mdp.generated_commands, params={"command_name": "base_velocity"})   
-        base_quat = ObsTerm(func=mdp.root_quat_w,  noise=Unoise(n_min=-0.01, n_max=0.01))
+        base_quat = ObsTerm(func=mdp.root_quat_w, noise=Unoise(n_min=-0.01, n_max=0.01))
         actions = ObsTerm(func=mdp.last_action)
 
         def __post_init__(self):
@@ -118,7 +118,7 @@ class ObservationsCfg:
         # root_position = ObsTerm(func=mdp.root_pos_w, noise=Unoise(n_min=-0.01, n_max=0.01))
         base_pos_z = ObsTerm(func=mdp.base_pos_z, noise=Unoise(n_min=-0.01, n_max=0.01))
         # projected_gravity = ObsTerm(func=mdp.projected_gravity, noise=Unoise(n_min=-0.05, n_max=0.05))
-        base_quat = ObsTerm(func=mdp.root_quat_w,  noise=Unoise(n_min=-0.01, n_max=0.01))
+        base_quat = ObsTerm(func=mdp.root_quat_w, noise=Unoise(n_min=-0.01, n_max=0.01))
         
         def __post_init__(self):
             self.enable_corruption = True
