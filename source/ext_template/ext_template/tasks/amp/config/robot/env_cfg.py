@@ -29,5 +29,5 @@ class H1AmpEnvCfg(AmpEnvCfg):
                                                              "right_shoulder_roll_joint", 
                                                              "right_shoulder_yaw_joint",
                                                              "right_elbow_joint"],
-                                                 scale=0.2, 
+                                                 scale=1.0, 
                                                  use_default_offset=True)

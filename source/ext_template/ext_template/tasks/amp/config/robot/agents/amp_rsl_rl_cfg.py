@@ -37,13 +37,15 @@ class RslRlAmpPpoAlgorithmCfg(RslRlPpoAlgorithmCfg):
     
 @configclass
 class RobotAmpRunnerCfg(RslRlAmpOnPolicyRunnerCfg):
+    # num_steps_per_env = 24
     num_steps_per_env = 24
-    max_iterations = 10000
-    save_interval = 200
+    max_iterations = 20000
+    save_interval = 100
     experiment_name = "robot_amp"
     empirical_normalization = True
     policy = RslRlPpoActorCriticCfg(
-        init_noise_std=1.0,
+        # init_noise_std=1.0,
+        init_noise_std=0.05,
         actor_hidden_dims = [1024, 512],
         critic_hidden_dims = [1024, 512],
         activation="elu"
@@ -68,10 +70,10 @@ class RobotAmpRunnerCfg(RslRlAmpOnPolicyRunnerCfg):
         value_loss_coef=2.5,
         use_clipped_value_loss=True,
         clip_param=0.2,
-        entropy_coef=0.0,
+        entropy_coef=0.05,
         num_learning_epochs=6,
         num_mini_batches=2,
-        learning_rate=1.0e-3,
+        learning_rate=1.0e-4,
         schedule="adaptive",
         gamma=0.99,
         lam=0.95,
@@ -80,7 +82,7 @@ class RobotAmpRunnerCfg(RslRlAmpOnPolicyRunnerCfg):
     )
     discriminator = RslRlDiscriminatorCfg(
         hidden_dims = [1024,512],
-        reward_scale = 2.0
+        reward_scale = 1.0
     )
     
     amp_data_path = MISSING
