@@ -93,46 +93,8 @@ class ObservationsCfg:
         """Observations for policy group."""
 
         # observation terms (order preserved)
-        joint_positions = ObsTerm(func=mdp.joint_pos, noise=Unoise(n_min=-0.01, n_max=0.01)
-                                ,params={"asset_cfg":SceneEntityCfg("robot",joint_names=["left_hip_yaw_joint", 
-                                                             "left_hip_roll_joint",
-                                                             "left_hip_pitch_joint", 
-                                                             "left_knee_joint", 
-                                                             "left_ankle_joint",
-                                                             "right_hip_yaw_joint", 
-                                                             "right_hip_roll_joint",
-                                                             "right_hip_pitch_joint", 
-                                                             "right_knee_joint", 
-                                                             "right_ankle_joint",
-                                                             "torso_joint", 
-                                                             "left_shoulder_pitch_joint",
-                                                             "left_shoulder_roll_joint", 
-                                                             "left_shoulder_yaw_joint",
-                                                             "left_elbow_joint", 
-                                                             "right_shoulder_pitch_joint",
-                                                             "right_shoulder_roll_joint", 
-                                                             "right_shoulder_yaw_joint",
-                                                             "right_elbow_joint"])})
-        joint_velocities = ObsTerm(func=mdp.joint_vel , noise=Unoise(n_min=-0.01, n_max=0.01)
-                                   ,params={"asset_cfg":SceneEntityCfg("robot",joint_names=["left_hip_yaw_joint", 
-                                                             "left_hip_roll_joint",
-                                                             "left_hip_pitch_joint", 
-                                                             "left_knee_joint", 
-                                                             "left_ankle_joint",
-                                                             "right_hip_yaw_joint", 
-                                                             "right_hip_roll_joint",
-                                                             "right_hip_pitch_joint", 
-                                                             "right_knee_joint", 
-                                                             "right_ankle_joint",
-                                                             "torso_joint", 
-                                                             "left_shoulder_pitch_joint",
-                                                             "left_shoulder_roll_joint", 
-                                                             "left_shoulder_yaw_joint",
-                                                             "left_elbow_joint", 
-                                                             "right_shoulder_pitch_joint",
-                                                             "right_shoulder_roll_joint", 
-                                                             "right_shoulder_yaw_joint",
-                                                             "right_elbow_joint"])})
+        joint_positions = ObsTerm(func=mdp.joint_pos, noise=Unoise(n_min=-0.01, n_max=0.01))
+        joint_velocities = ObsTerm(func=mdp.joint_vel , noise=Unoise(n_min=-0.01, n_max=0.01))
         base_lin_velocities = ObsTerm(func=mdp.base_lin_vel, noise=Unoise(n_min=-0.1, n_max=0.1))
         base_ang_velocities = ObsTerm(func=mdp.base_ang_vel, noise=Unoise(n_min=-0.2, n_max=0.2))
         base_pos_z = ObsTerm(func=mdp.base_pos_z, noise=Unoise(n_min=-0.01, n_max=0.01))
@@ -149,46 +111,8 @@ class ObservationsCfg:
     class AmpCfg(ObsGroup):
         """Observations for amp(discriminator) group."""
         # observation terms (order preserved)
-        joint_positions = ObsTerm(func=mdp.joint_pos, noise=Unoise(n_min=-0.01, n_max=0.01)
-                                     ,params={"asset_cfg":SceneEntityCfg("robot",joint_names=["left_hip_yaw_joint", 
-                                                             "left_hip_roll_joint",
-                                                             "left_hip_pitch_joint", 
-                                                             "left_knee_joint", 
-                                                             "left_ankle_joint",
-                                                             "right_hip_yaw_joint", 
-                                                             "right_hip_roll_joint",
-                                                             "right_hip_pitch_joint", 
-                                                             "right_knee_joint", 
-                                                             "right_ankle_joint",
-                                                             "torso_joint", 
-                                                             "left_shoulder_pitch_joint",
-                                                             "left_shoulder_roll_joint", 
-                                                             "left_shoulder_yaw_joint",
-                                                             "left_elbow_joint", 
-                                                             "right_shoulder_pitch_joint",
-                                                             "right_shoulder_roll_joint", 
-                                                             "right_shoulder_yaw_joint",
-                                                             "right_elbow_joint"])})
-        joint_velocities = ObsTerm(func=mdp.joint_vel , noise=Unoise(n_min=-0.01, n_max=0.01)
-                                ,params={"asset_cfg":SceneEntityCfg("robot",joint_names=["left_hip_yaw_joint", 
-                                                             "left_hip_roll_joint",
-                                                             "left_hip_pitch_joint", 
-                                                             "left_knee_joint", 
-                                                             "left_ankle_joint",
-                                                             "right_hip_yaw_joint", 
-                                                             "right_hip_roll_joint",
-                                                             "right_hip_pitch_joint", 
-                                                             "right_knee_joint", 
-                                                             "right_ankle_joint",
-                                                             "torso_joint", 
-                                                             "left_shoulder_pitch_joint",
-                                                             "left_shoulder_roll_joint", 
-                                                             "left_shoulder_yaw_joint",
-                                                             "left_elbow_joint", 
-                                                             "right_shoulder_pitch_joint",
-                                                             "right_shoulder_roll_joint", 
-                                                             "right_shoulder_yaw_joint",
-                                                             "right_elbow_joint"])})
+        joint_positions = ObsTerm(func=mdp.joint_pos, noise=Unoise(n_min=-0.01, n_max=0.01))
+        joint_velocities = ObsTerm(func=mdp.joint_vel , noise=Unoise(n_min=-0.01, n_max=0.01))
         base_lin_velocities = ObsTerm(func=mdp.base_lin_vel, noise=Unoise(n_min=-0.1, n_max=0.1))
         base_ang_velocities = ObsTerm(func=mdp.base_ang_vel, noise=Unoise(n_min=-0.2, n_max=0.2))
         # root_position = ObsTerm(func=mdp.root_pos_w, noise=Unoise(n_min=-0.01, n_max=0.01))
