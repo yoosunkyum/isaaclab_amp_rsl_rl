@@ -21,9 +21,6 @@ def main():
     print('fps : ', data['fps'])
    
     """load robot model & solve forward kinematics"""
-    # model_filename = "../phc/data/assets/robot/unitree_g1/g1.xml"
-    # mjcf_model = pin.buildModelFromMJCF(model_filename, root_joint=pin.pin.JointModelFreeFlyer()) #floating base
-    # model_filename = "../../../../phc/data/assets/robot/unitree_h1/h1.xml"
     # model_filename = "../../../../phc/data/assets/robot/unitree_g1_29dof/g1_29dof_rev_1_0.xml"
     # mjcf_model = pin.buildModelFromMJCF(model_filename, pin.JointModelFreeFlyer()) #floating base
     model_filename = "../../../../phc/data/assets/robot/unitree_g1_29dof/g1_29dof_rev_1_0.urdf"
@@ -44,9 +41,6 @@ def main():
     q[:,:3] = data['root_trans_offset']
     q[:,3:7] = data['root_rot']
     q[:,7:] = data['dof']
-    # q[:,7:10] = data['root_trans_offset']
-    # q[:,10:14] = data['root_rot']
-    # q[:,14:] = data['dof']
 
     """data conversion"""
     conv_data={}

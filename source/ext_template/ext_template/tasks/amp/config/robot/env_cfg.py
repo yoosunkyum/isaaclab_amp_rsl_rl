@@ -1,8 +1,9 @@
 from isaaclab.utils import configclass
 
 from ext_template.tasks.amp.amp_env_cfg import *
+from ext_template.tasks.amp.add_env_cfg import *
 from isaaclab_assets.robots.unitree import H1_CUSTOM_CFG, G1_29DOF_CFG
-
+from pathlib import Path
         
 @configclass
 class H1AmpEnvCfg(AmpEnvCfg):
@@ -69,3 +70,14 @@ class G1AmpEnvCfg(AmpEnvCfg):
                                                              'right_wrist_yaw_joint'],
                                                  scale=1.0, 
                                                  use_default_offset=True)
+        
+@configclass
+class G1AddEnvCfg(AddEnvCfg):
+    def __post_init__(self):
+        super().__post_init__()
+        self.scene.robot = G1_29DOF_CFG.replace(prim_path="{ENV_REGEX_NS}/Robot")
+        self.commands.motion.anchor_body = "pelvis"
+        self.commands.motion.dataset_path_root = "C:/Research/isaaclab_amp_rsl_rl/motions/g1",
+        self.commands.motion.dataset_names=["g1_walk"],
+        self.commands.motion.dataset_weights=[1.0],
+

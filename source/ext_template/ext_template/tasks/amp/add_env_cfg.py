@@ -60,23 +60,33 @@ class MySceneCfg(InteractiveSceneCfg):
 ##
 
 
-# @configclass
-# class CommandsCfg:
-#     """Command specifications for the MDP."""
+@configclass
+class CommandsCfg:
+    """Command specifications for the MDP."""
 
-#     base_velocity = mdp.UniformVelocityCommandCfg(
-#         asset_name="robot",
-#         resampling_time_range=(10.0, 10.0),
-#         rel_standing_envs=0.02,
-#         rel_heading_envs=1.0,
-#         heading_command=True,
-#         heading_control_stiffness=0.5,
-#         debug_vis=True,
-#         ranges=mdp.UniformVelocityCommandCfg.Ranges(
-#             lin_vel_x=(-1.0, 1.0), lin_vel_y=(-1.0, 1.0), ang_vel_z=(-1.0, 1.0), heading=(-math.pi, math.pi)
-#         ),
-#     )
+    motion = mdp.MotionCommandCfg(
 
+        asset_name="robot",
+        resampling_time_range=(1.0e9, 1.0e9),
+        debug_vis=True,
+        pose_range={
+            "x": (0.0, 0.0),
+            "y": (0.0, 0.0),
+            "z": (0.0, 0.0),
+            "roll": (0.0, 0.0),
+            "pitch": (0.0, 0.0),
+            "yaw": (0.0, 0.0),
+        },
+        velocity_range={
+            "x": (0.0, 0.0),
+            "y": (0.0, 0.0),
+            "z": (0.0, 0.0),
+            "roll": (0.0, 0.0),
+            "pitch": (0.0, 0.0),
+            "yaw": (0.0, 0.0),
+        },
+        joint_position_range=(0.0, 0.0),
+    )
 
 @configclass
 class ActionsCfg:
@@ -276,9 +286,10 @@ class TerminationsCfg:
     # )
 
 
-# @configclass
-# class CurriculumCfg:
-#     """Curriculum terms for the MDP."""
+@configclass
+class CurriculumCfg:
+    """Curriculum terms for the MDP."""
+    pass
 
 #     terrain_levels = CurrTerm(func=mdp.terrain_levels_vel)
 
@@ -289,12 +300,13 @@ class TerminationsCfg:
 
 
 @configclass
-class AmpEnvCfg(ManagerBasedRLEnvCfg):
+class AddEnvCfg(ManagerBasedRLEnvCfg):
     """Configuration for the locomotion velocity-tracking environment."""
 
     # Scene settings
     scene: MySceneCfg = MySceneCfg(num_envs=4096, env_spacing=2.5)
     # Basic settings
+    commands: CommandsCfg = CommandsCfg()
     observations: ObservationsCfg = ObservationsCfg()
     actions: ActionsCfg = ActionsCfg()
     # commands: CommandsCfg = CommandsCfg()
@@ -302,7 +314,7 @@ class AmpEnvCfg(ManagerBasedRLEnvCfg):
     rewards: RewardsCfg = RewardsCfg()
     terminations: TerminationsCfg = TerminationsCfg()
     events: EventCfg = EventCfg()
-    # curriculum: CurriculumCfg = CurriculumCfg()
+    curriculum: CurriculumCfg = CurriculumCfg()
 
     def __post_init__(self):
         """Post initialization."""
@@ -317,3 +329,8 @@ class AmpEnvCfg(ManagerBasedRLEnvCfg):
         self.sim.physx.gpu_max_rigid_patch_count = 10 * 2**15
         self.sim.physx.gpu_found_lost_aggregate_pairs_capacity=2**23
         self.sim.physx.gpu_total_aggregate_pairs_capacity=2**23
+
+        # # viewer settings
+        # self.viewer.eye = (1.5, 1.5, 1.5)
+        # self.viewer.origin_type = "asset_root"
+        # self.viewer.asset_name = "robot"

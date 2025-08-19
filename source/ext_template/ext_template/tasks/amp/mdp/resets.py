@@ -26,7 +26,35 @@ motion = MotionLoader(device="cuda",
                     dataset_weights=[1.0],
                     simulation_dt = 1 /60,
                     slow_down_factor=1,
-                    expected_joint_names=['left_hip_pitch_joint', 'right_hip_pitch_joint', 'waist_yaw_joint', 'left_hip_roll_joint', 'right_hip_roll_joint', 'waist_roll_joint', 'left_hip_yaw_joint', 'right_hip_yaw_joint', 'waist_pitch_joint', 'left_knee_joint', 'right_knee_joint', 'left_shoulder_pitch_joint', 'right_shoulder_pitch_joint', 'left_ankle_pitch_joint', 'right_ankle_pitch_joint', 'left_shoulder_roll_joint', 'right_shoulder_roll_joint', 'left_ankle_roll_joint', 'right_ankle_roll_joint', 'left_shoulder_yaw_joint', 'right_shoulder_yaw_joint', 'left_elbow_joint', 'right_elbow_joint', 'left_wrist_roll_joint', 'right_wrist_roll_joint', 'left_wrist_pitch_joint', 'right_wrist_pitch_joint', 'left_wrist_yaw_joint', 'right_wrist_yaw_joint']
+                    expected_joint_names=['left_hip_pitch_joint', 
+                                          'right_hip_pitch_joint', 
+                                          'waist_yaw_joint', 
+                                          'left_hip_roll_joint', 
+                                          'right_hip_roll_joint', 
+                                          'waist_roll_joint', 
+                                          'left_hip_yaw_joint', 
+                                          'right_hip_yaw_joint', 
+                                          'waist_pitch_joint', 
+                                          'left_knee_joint', 
+                                          'right_knee_joint', 
+                                          'left_shoulder_pitch_joint', 
+                                          'right_shoulder_pitch_joint', 
+                                          'left_ankle_pitch_joint', 
+                                          'right_ankle_pitch_joint', 
+                                          'left_shoulder_roll_joint', 
+                                          'right_shoulder_roll_joint', 
+                                          'left_ankle_roll_joint', 
+                                          'right_ankle_roll_joint', 
+                                          'left_shoulder_yaw_joint', 
+                                          'right_shoulder_yaw_joint', 
+                                          'left_elbow_joint', 
+                                          'right_elbow_joint', 
+                                          'left_wrist_roll_joint', 
+                                          'right_wrist_roll_joint', 
+                                          'left_wrist_pitch_joint', 
+                                          'right_wrist_pitch_joint', 
+                                          'left_wrist_yaw_joint', 
+                                          'right_wrist_yaw_joint']
                     )
 
 def reset_joints_from_motion(
@@ -38,7 +66,7 @@ def reset_joints_from_motion(
     joint_pos,joint_vel,base_pos,base_quat,base_lin_vel,base_ang_vel = motion.sample(env_ids.shape[0])
     root_state = asset.data.default_root_state[env_ids].clone()
     root_state[:,0:3] = env.scene.env_origins[env_ids]
-    root_state[:,2] = base_pos[:,0,2] + 0.1
+    root_state[:,2] = base_pos[:,0,2] + 0.02
     root_state[:,3:7] = base_quat[:,0,:]
     root_state[:,7:10] = base_lin_vel[:,0,:]
     root_state[:,10:13] = base_ang_vel[:,0,:]

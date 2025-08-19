@@ -26,3 +26,13 @@ gym.register(
         "rsl_rl_cfg_entry_point": f"{agents.__name__}.amp_rsl_rl_cfg:G1AmpRunnerCfg",
     },
 )
+
+gym.register(
+    id="Template-Isaac-ADD-G1-v0",
+    entry_point="isaaclab.envs:ManagerBasedRLEnv",
+    disable_env_checker=True,
+    kwargs={
+        "env_cfg_entry_point": env_cfg.G1AddEnvCfg,
+        "rsl_rl_cfg_entry_point": f"{agents.__name__}.amp_rsl_rl_cfg:G1AddRunnerCfg",
+    },
+)

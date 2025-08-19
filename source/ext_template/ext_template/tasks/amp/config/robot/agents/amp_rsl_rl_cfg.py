@@ -38,7 +38,7 @@ class RslRlAmpPpoAlgorithmCfg(RslRlPpoAlgorithmCfg):
 @configclass
 class RobotAmpRunnerCfg(RslRlAmpOnPolicyRunnerCfg):
     # num_steps_per_env = 24
-    num_steps_per_env = 24
+    num_steps_per_env = 16
     max_iterations = 4000
     save_interval = 100
     experiment_name = "robot_amp"
@@ -71,11 +71,11 @@ class RobotAmpRunnerCfg(RslRlAmpOnPolicyRunnerCfg):
         use_clipped_value_loss=True,
         clip_param=0.2,
         entropy_coef=0.02,
-        num_learning_epochs=6,
-        num_mini_batches=2,
+        num_learning_epochs=2,
+        num_mini_batches=8,
         learning_rate=2.0e-6,
         schedule="adaptive",
-        gamma=0.97,
+        gamma=0.99,
         lam=0.95,
         desired_kl=0.01,
         max_grad_norm=1.0,
@@ -99,6 +99,13 @@ class H1AmpRunnerCfg(RobotAmpRunnerCfg):
 
 @configclass
 class G1AmpRunnerCfg(RobotAmpRunnerCfg):
+    experiment_name = "G1_AMP"
+    amp_data_path = Path("C:/Research/isaaclab_amp_rsl_rl/motions/g1")
+    dataset_names = ['g1_walk']
+    dataset_weights = [1.0]
+
+@configclass
+class G1AddRunnerCfg(RobotAmpRunnerCfg):
     experiment_name = "G1_AMP"
     amp_data_path = Path("C:/Research/isaaclab_amp_rsl_rl/motions/g1")
     dataset_names = ['g1_walk']
