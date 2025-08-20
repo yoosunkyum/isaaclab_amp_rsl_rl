@@ -68,7 +68,7 @@ class CommandsCfg:
 
         asset_name="robot",
         resampling_time_range=(1.0e9, 1.0e9),
-        debug_vis=True,
+        debug_vis=False,
         pose_range={
             "x": (0.0, 0.0),
             "y": (0.0, 0.0),
@@ -103,32 +103,63 @@ class ObservationsCfg:
         """Observations for policy group."""
 
         # observation terms (order preserved)
-        joint_positions = ObsTerm(func=mdp.joint_pos, noise=Unoise(n_min=-0.01, n_max=0.01))
-        joint_velocities = ObsTerm(func=mdp.joint_vel , noise=Unoise(n_min=-0.01, n_max=0.01))
+        command = ObsTerm(func=mdp.generated_commands, params={"command_name": "motion"}, noise=Unoise(n_min=-0.01, n_max=0.01))
+        
         base_lin_velocities = ObsTerm(func=mdp.base_lin_vel, noise=Unoise(n_min=-0.1, n_max=0.1))
         base_ang_velocities = ObsTerm(func=mdp.base_ang_vel, noise=Unoise(n_min=-0.2, n_max=0.2))
-        base_pos_z = ObsTerm(func=mdp.base_pos_z, noise=Unoise(n_min=-0.01, n_max=0.01))
         projected_gravity = ObsTerm(func=mdp.projected_gravity,noise=Unoise(n_min=-0.05, n_max=0.05))
-        # velocity_commands = ObsTerm(func=mdp.generated_commands, params={"command_name": "base_velocity"})   
-        # base_quat = ObsTerm(func=mdp.root_quat_w, noise=Unoise(n_min=-0.01, n_max=0.01))
-        # actions = ObsTerm(func=mdp.last_action)
+        
+        joint_positions = ObsTerm(func=mdp.joint_pos, noise=Unoise(n_min=-0.01, n_max=0.01))
+        joint_velocities = ObsTerm(func=mdp.joint_vel , noise=Unoise(n_min=-0.01, n_max=0.01))
+        
+        actions = ObsTerm(func=mdp.last_action)
 
         def __post_init__(self):
             self.enable_corruption = True
             self.concatenate_terms = True
             
     @configclass
-    class AmpCfg(ObsGroup):
+    class PrivilegedCfg(ObsGroup):
+        """Observations for policy group."""
+
+        # observation terms (order preserved)
+        command = ObsTerm(func=mdp.generated_commands, params={"command_name": "motion"}, noise=Unoise(n_min=-0.01, n_max=0.01))
+
+        relative_anchor_positions = ObsTerm(func=mdp.anchor_pos_ref_b)
+        relative_anchor_rotations = ObsTerm(func=mdp.anchor_ori_ref_b)
+        anchor_linear_velocities = ObsTerm(func=mdp.anchor_lin_vel_w)
+        anchor_angular_velocities = ObsTerm(func=mdp.anchor_ang_vel_w)
+        
+        body_positions = ObsTerm(func=mdp.body_pos_b)
+        body_rotations = ObsTerm(func=mdp.body_ori_b)
+        body_linear_velocities = ObsTerm(func=mdp.body_lin_vel_w)
+        body_angular_velocities = ObsTerm(func=mdp.body_ang_vel_w)
+        
+        joint_positions = ObsTerm(func=mdp.joint_pos)
+        joint_velocities = ObsTerm(func=mdp.joint_vel)
+        
+        actions = ObsTerm(func=mdp.last_action)
+
+        def __post_init__(self):
+            self.enable_corruption = True
+            self.concatenate_terms = True
+            
+    @configclass
+    class AddCfg(ObsGroup):
         """Observations for amp(discriminator) group."""
         # observation terms (order preserved)
-        joint_positions = ObsTerm(func=mdp.joint_pos, noise=Unoise(n_min=-0.01, n_max=0.01))
-        joint_velocities = ObsTerm(func=mdp.joint_vel , noise=Unoise(n_min=-0.01, n_max=0.01))
-        base_lin_velocities = ObsTerm(func=mdp.base_lin_vel, noise=Unoise(n_min=-0.1, n_max=0.1))
-        base_ang_velocities = ObsTerm(func=mdp.base_ang_vel, noise=Unoise(n_min=-0.2, n_max=0.2))
-        # root_position = ObsTerm(func=mdp.root_pos_w, noise=Unoise(n_min=-0.01, n_max=0.01))
-        base_pos_z = ObsTerm(func=mdp.base_pos_z, noise=Unoise(n_min=-0.01, n_max=0.01))
-        projected_gravity = ObsTerm(func=mdp.projected_gravity, noise=Unoise(n_min=-0.05, n_max=0.05))
-        # base_quat = ObsTerm(func=mdp.root_quat_w, noise=Unoise(n_min=-0.01, n_max=0.01))
+        # joint_position_error = ObsTerm(func=mdp.err_joint_pos, noise=Unoise(n_min=-0.01, n_max=0.01))
+        # joint_velocity_error = ObsTerm(func=mdp.err_joint_vel, noise=Unoise(n_min=-0.01, n_max=0.01))
+        
+        anchor_position_error = ObsTerm(func=mdp.err_anchor_pos, noise=Unoise(n_min=-0.01, n_max=0.01))
+        anchor_rotation_error = ObsTerm(func=mdp.err_anchor_rot, noise=Unoise(n_min=-0.01, n_max=0.01))
+        anchor_linear_velocity_error = ObsTerm(func=mdp.err_anchor_lin_vel, noise=Unoise(n_min=-0.01, n_max=0.01))
+        anchor_angular_velocity_error = ObsTerm(func=mdp.err_anchor_ang_vel, noise=Unoise(n_min=-0.01, n_max=0.01))
+        
+        body_position_error = ObsTerm(func=mdp.err_body_pos, noise=Unoise(n_min=-0.01, n_max=0.01))
+        body_rotation_error = ObsTerm(func=mdp.err_body_rot, noise=Unoise(n_min=-0.01, n_max=0.01))
+        body_linear_velocity_error = ObsTerm(func=mdp.err_body_lin_vel, noise=Unoise(n_min=-0.01, n_max=0.01))
+        body_angular_velocity_error = ObsTerm(func=mdp.err_body_ang_vel, noise=Unoise(n_min=-0.01, n_max=0.01))
         
         def __post_init__(self):
             self.enable_corruption = True
@@ -137,7 +168,8 @@ class ObservationsCfg:
 
     # observation groups
     policy: PolicyCfg = PolicyCfg()
-    amp: AmpCfg = AmpCfg()
+    critic: PrivilegedCfg = PrivilegedCfg()
+    add: AddCfg = AddCfg()
 
 
 @configclass
@@ -279,7 +311,7 @@ class TerminationsCfg:
     """Termination terms for the MDP."""
 
     time_out = DoneTerm(func=mdp.time_out, time_out=True)
-    died = DoneTerm(func=mdp.root_height_below_minimum, params={"minimum_height" : 0.6})
+    died = DoneTerm(func=mdp.root_height_below_minimum, params={"minimum_height" : 0.5})
     # base_contact = DoneTerm(
     #     func=mdp.illegal_contact,
     #     params={"sensor_cfg": SceneEntityCfg("contact_forces", body_names="base"), "threshold": 1.0},

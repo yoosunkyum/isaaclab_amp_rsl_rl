@@ -39,7 +39,7 @@ import os
 import torch
 
 from rsl_rl.runners import OnPolicyRunner
-from amp_rsl_rl.runners import AMPOnPolicyRunner
+from amp_rsl_rl.runners import AMPOnPolicyRunner, ADDOnPolicyRunner
 
 from isaaclab.envs import DirectMARLEnv, multi_agent_to_single_agent
 from isaaclab.utils.dict import print_dict
@@ -90,6 +90,8 @@ def main():
     # load previously trained model
     if args_cli.algorithm == "AMP":
         ppo_runner = AMPOnPolicyRunner(env, agent_cfg.to_dict(), log_dir=log_dir, device=agent_cfg.device)    
+    elif args_cli.algorithm == "ADD":
+        ppo_runner = ADDOnPolicyRunner(env, agent_cfg.to_dict(), log_dir=log_dir, device=agent_cfg.device)    
     else:
         ppo_runner = OnPolicyRunner(env, agent_cfg.to_dict(), log_dir=None, device=agent_cfg.device)
     ppo_runner.load(resume_path)

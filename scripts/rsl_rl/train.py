@@ -25,7 +25,7 @@ parser.add_argument("--num_envs", type=int, default=None, help="Number of enviro
 parser.add_argument("--task", type=str, default=None, help="Name of the task.")
 parser.add_argument("--seed", type=int, default=None, help="Seed used for the environment")
 parser.add_argument("--max_iterations", type=int, default=None, help="RL Policy training iterations.")
-parser.add_argument("--algorithm", type=str, default="PPO", help="RL Policy training algorithm to use [PPO, AMP].")
+parser.add_argument("--algorithm", type=str, default="PPO", help="RL Policy training algorithm to use [PPO, AMP, ADD].")
 # append RSL-RL cli arguments
 cli_args.add_rsl_rl_args(parser)
 # append AppLauncher cli args
@@ -51,7 +51,7 @@ import torch
 from datetime import datetime
 
 from rsl_rl.runners import OnPolicyRunner
-from amp_rsl_rl.runners import AMPOnPolicyRunner
+from amp_rsl_rl.runners import AMPOnPolicyRunner, ADDOnPolicyRunner
 
 from isaaclab.envs import (
     DirectMARLEnv,
@@ -124,6 +124,8 @@ def main(env_cfg: ManagerBasedRLEnvCfg | DirectRLEnvCfg | DirectMARLEnvCfg, agen
     # create runner from rsl-rl
     if args_cli.algorithm == "AMP":
         runner = AMPOnPolicyRunner(env, agent_cfg.to_dict(), log_dir=log_dir, device=agent_cfg.device)
+    elif args_cli.algorithm == "ADD":
+        runner = ADDOnPolicyRunner(env, agent_cfg.to_dict(), log_dir=log_dir, device=agent_cfg.device)
     else:
         runner = OnPolicyRunner(env, agent_cfg.to_dict(), log_dir=log_dir, device=agent_cfg.device)
     # write git state to logs

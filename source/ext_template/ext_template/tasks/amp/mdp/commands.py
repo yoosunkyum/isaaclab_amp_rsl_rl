@@ -224,8 +224,8 @@ class MotionCommand(CommandTerm):
         delta_pos_w[..., 2] = anchor_pos_w_repeat[..., 2]
         delta_ori_w = yaw_quat(quat_mul(robot_anchor_quat_w_repeat, quat_inv(anchor_quat_w_repeat)))
 
-        self.body_quat_relative_w = quat_mul(delta_ori_w, self.body_quat_w)
-        self.body_pos_relative_w = delta_pos_w + quat_apply(delta_ori_w, self.body_pos_w - anchor_pos_w_repeat)
+        self.body_quat_relative_w = quat_mul(delta_ori_w, self.body_quat_ref_w)
+        self.body_pos_relative_w = delta_pos_w + quat_apply(delta_ori_w, self.body_pos_ref_w - anchor_pos_w_repeat)
 
     def _set_debug_vis_impl(self, debug_vis: bool):
         if debug_vis:
@@ -271,8 +271,8 @@ class MotionCommand(CommandTerm):
 
         for i in range(len(self.robot.body_names)):
             self.current_body_visualizers[i].visualize(self.body_pos_w[:, i], self.body_quat_w[:, i])
-            # self.goal_body_visualizers[i].visualize(self.body_pos_relative_w[:, i], self.body_quat_relative_w[:, i])
-            self.goal_body_visualizers[i].visualize(self.body_pos_ref_w[:, i], self.body_quat_ref_w[:, i])
+            self.goal_body_visualizers[i].visualize(self.body_pos_relative_w[:, i], self.body_quat_relative_w[:, i])
+            # self.goal_body_visualizers[i].visualize(self.body_pos_ref_w[:, i], self.body_quat_ref_w[:, i])
 @configclass
 class MotionCommandCfg(CommandTermCfg):
     """Configuration for the motion command."""
